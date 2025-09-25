@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vecino Sigiloso</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrapper">
+    <header class="panel">
+      <h1>Vecino Sigiloso</h1>
+      <p>
+        Explora la casa, encuentra la llave y abre la puerta roja sin que el vecino te atrape.
+        Usa las flechas o WASD para moverte. Mantente fuera del cono de visión.
+      </p>
+      <ul class="status" id="status"></ul>
+    </header>
+    <canvas id="game" width="800" height="600" aria-label="Juego Vecino Sigiloso" role="img"></canvas>
+    <section class="panel" id="instructions">
+      <h2>Controles</h2>
+      <ul>
+        <li>WASD o flechas: mover al personaje.</li>
+        <li>Barra espaciadora: acelerar en corto sprint.</li>
+        <li>R: reiniciar la partida.</li>
+      </ul>
+      <p>La visión del vecino es el cono rojo. Si te ve demasiado tiempo, te atrapará.</p>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

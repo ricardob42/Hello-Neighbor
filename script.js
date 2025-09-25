@@ -51,22 +51,44 @@
     );
   };
 
-  const playerStart = { x: TILE_SIZE * 2.5, y: TILE_SIZE * 2.5 };
-  const neighborStart = { x: TILE_SIZE * 12.5, y: TILE_SIZE * 7.5 };
+  function tileCenter(col, row, label) {
+    if (col < 0 || row < 0 || col >= COLS || row >= ROWS) {
+      throw new Error(`${label} fuera del mapa (${col}, ${row})`);
+    }
+
+    const key = `${col},${row}`;
+    if (WALLS.has(key)) {
+      throw new Error(`${label} colocado sobre un muro (${col}, ${row})`);
+    }
+
+    return { x: (col + 0.5) * TILE_SIZE, y: (row + 0.5) * TILE_SIZE };
+  }
+
+  const playerStart = tileCenter(1, 1, "Inicio del jugador");
+  const neighborStart = tileCenter(12, 7, "Inicio del vecino");
 
   const door = {
-    x: TILE_SIZE * (18 + 0.5),
-    y: TILE_SIZE * (1 + 0.5),
+    ...tileCenter(18, 1, "Puerta"),
     radius: TILE_SIZE * 0.45,
     open: false
   };
 
   const keyItem = {
-    x: TILE_SIZE * (4 + 0.5),
-    y: TILE_SIZE * (11 + 0.5),
+    ...tileCenter(3, 12, "Llave"),
     radius: TILE_SIZE * 0.3,
     collected: false
   };
+
+  const PATROL_TILES = [
+    [12, 12],
+    [17, 12],
+    [12, 12],
+    [12, 7]
+  ];
+
+  const patrolPath = PATROL_TILES.map(([col, row], index) =>
+    tileCenter(col, row, `Punto de patrulla ${index + 1}`)
+  );
 
   const player = {
     x: playerStart.x,
@@ -97,13 +119,7 @@
     suspicionDecay: 0.8,
     memoryTimer: 0,
     maxMemory: 3,
-    patrolPath: [
-      { x: TILE_SIZE * 12.5, y: TILE_SIZE * 3.5 },
-      { x: TILE_SIZE * 15.5, y: TILE_SIZE * 3.5 },
-      { x: TILE_SIZE * 15.5, y: TILE_SIZE * 9.5 },
-      { x: TILE_SIZE * 10.5, y: TILE_SIZE * 9.5 },
-      { x: TILE_SIZE * 10.5, y: TILE_SIZE * 6.5 }
-    ]
+    patrolPath
   };
 
   const gameState = {
